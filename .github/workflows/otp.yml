@@ -1,0 +1,52 @@
+name: Check for New Version and Update Files
+
+on:
+  schedule:
+    - cron: '* * * * *'
+
+jobs:
+  check-for-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check version
+        run: |
+          # Replace the URL with the API or endpoint to check the latest version
+          # latest_version=$(curl -s https://example.com/latest-version | jq -r '.version')
+          current=$(sed -nE "/otp_version:/s/^.*: //p" .github/workflows/main.yml)
+          
+          # echo "Latest version: $latest_version"
+          echo "Current version: $current"
+
+          # if [ "$latest_version" != "$current_version" ]; then
+          #   echo "New version found"
+          #   echo "new_version=$latest_version" >> $GITHUB_ENV
+          # else
+          #   echo "No new version available."
+          #   exit 0
+          # fi
+
+      # - name: Update version file
+      #   if: env.new_version
+      #   run: |
+      #     echo "$new_version" > version.txt
+      #     # Modify additional files as needed for the new version
+      #     # echo "<changes>" > file.txt
+
+      # - name: Commit changes
+      #   if: env.new_version
+      #   run: |
+      #     git config --global user.name "github-actions[bot]"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      #     git add .
+      #     git commit -m "Update to version $new_version"
+
+      # - name: Create Pull Request
+      #   if: env.new_version
+      #   uses: peter-evans/create-pull-request@v5
+      #   with:
+      #     commit-message: "Update to version $new_version"
+      #     title: "Update to version $new_version"
+      #     body: "This PR updates the project to version $new_version."
+      #     branch: "update-to-$new_version"
