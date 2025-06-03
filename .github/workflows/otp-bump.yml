@@ -15,14 +15,20 @@ jobs:
       with:
         submodules: true
 
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Setup dependencies
+      run: pip install requests beautifulsoup4
     - name: Pull OTP versions from Debian
-      run: curl --silent https://packages.debian.org/search?keywords=erlang | sed -ne '/Package erlang</,/<\/ul>/{/br/p}' | tee otp.versions
+      run: touch touche #python3 otp-bump.py
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v7
       with:
         delete-branch: true
-        commit-message: 'Tchu tchu, tchu tchu, thchu tchu tchu'
+        commit-message: 'Bump OTP'
         branch: 'create-pull-request/otp-bump'
-        title: 'Topesi yo raison'
+        title: 'OTP bump'
         body: |
-          Sebele !
+          OTP bump
